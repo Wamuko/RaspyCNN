@@ -7,9 +7,9 @@ import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
 
-import coco
-import utils
-import model as modellib
+from mrcnn import utils
+from mrcnn import model as modellib
+from mrcnn import coco
 
 import cv2
 import colorsys
@@ -17,10 +17,7 @@ import colorsys
 ROOT_DIR = os.getcwd()
 MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 
-COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
-if not os.path.exists(COCO_MODEL_PATH):
-    utils.download_trained_weights(COCO_MODEL_PATH)
-
+COCO_MODEL_PATH = os.path.join(os.path.join(ROOT_DIR, "models"), "mask_rcnn_coco.h5")
 
 class InferenceConfig(coco.CocoConfig):
     GPU_COUNT = 1
