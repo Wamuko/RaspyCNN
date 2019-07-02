@@ -45,8 +45,8 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
                'teddy bear', 'hair drier', 'toothbrush']
 
-cap = cv2.VideoCapture("1.mp4")
-# cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture("1.mp4")
+cap = cv2.VideoCapture(0)
 
 height = 720
 width = 1280
