@@ -8,7 +8,7 @@ import cv2
 
 slim = tf.contrib.slim
 
-# matplotlib inline
+# %matplotlib inline
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
@@ -68,12 +68,50 @@ def process_image(img, select_threshold=0.5, nms_threshold=.45, net_shape=(300, 
     rbboxes = np_methods.bboxes_resize(rbbox_img, rbboxes)
     return rclasses, rscores, rbboxes
 
-# Test on some demo image and visualize output.
-path = '../demo/'
-image_names = sorted(os.listdir(path))
+# 動画の読み込み
+cap = cv2.VideoCapture(0)
+videoCnt=0
 
-img = mpimg.imread(path + image_names[-5])
-rclasses, rscores, rbboxes =  process_image(img)
+figsize=(10,10)
+linewidth=1.5
+fig = plt.figure(figsize=figsize)
 
-# visualization.bboxes_draw_on_img(img, rclasses, rscores, rbboxes, visualization.colors_plasma)
-visualization.plt_bboxes(img, rclasses, rscores, rbboxes)
+# 動画終了まで繰り返し
+while(cap.isOpened()):
+        # フレームを取得
+        ret, frame = cap.read()
+        img = frame
+        # フレームを表示
+        cv2.imshow("Flame", frame) #無くてもいい
+        rclasses, rscores, rbboxes =  process_image(img)
+
+
+#######
+        plt.imshow(img)
+        height = img.shape[0]
+        width = img.shape[1]
+        colors = dict()
+        for i in range(rclasses.shape[0]):
+            cls_id = int(rclasses[i])
+            if cls_id >= 0:
+                score = rscores[i]
+                if cls_id not in colors:
+                    colors[cls_id] = (random.random(), random.random(), random.random())
+                ymin = int(rbboxes[i, 0] * height)
+                xmin = int(rbboxes[i, 1] * width)
+                ymax = int(rbboxes[i, 2] * height)
+                xmax = int(rbboxes[i, 3] * width)
+                rect = plt.Rectangle((xmin, ymin), xmax - xmin,
+                                         ymax - ymin, fill=False,
+                                         edgecolor=colors[cls_id],
+                                         linewidth=linewidth)
+                plt.gca().add_patch(rect)
+                class_name = str(cls_id)
+
+                plt.gca().text(xmin, ymin - 2,
+                           '{:s} | {:.3f}'.format(class_name, score),
+                           bbox=dict(facecolor=colors[cls_id], alpha=0.5),
+                           fontsize=12, color='white')
+
+        plt.pause(0.03)
+cap.release()
