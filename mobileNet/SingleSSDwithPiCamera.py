@@ -174,8 +174,7 @@ finally:
 
     # Stop streaming
     for devnum in range(len(devices)):
-        graphHandle[devnum][0].destroy()
-        graphHandle[devnum][1].destroy()
+        graphHandle[devnum].destroy()
         graph.destroy()
         devHandle[devnum].close()
         devHandle[devnum].destroy()
