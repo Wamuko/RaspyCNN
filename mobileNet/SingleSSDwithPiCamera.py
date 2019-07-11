@@ -49,10 +49,12 @@ graphHandle = []
 #     graph_buffer = f.read()
 # graph = mvnc.Graph('MobileNet-SSD')
 
+graph_folder = join(join(os.getcwd(), "caffemodel"), "MobileNetSSD")
+
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
     devHandle[devnum].OpenDevice()
-    graph = devHandle[devnum].AllocateGraph(os.path.join(graph_folder, "graph"))
+    graph = devHandle[devnum].AllocateGraph(os.path.join(graph_folder, "MobileNetSSD_deploy"))
     graphHandle.append(graph.AllocateGraph(devHandle[devnum], graph))
 
 print("\nLoaded Graphs!!!")
