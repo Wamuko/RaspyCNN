@@ -72,7 +72,7 @@ if not os.path.exists(segmented_images_path):
 try:
     #freq = cv2.getTickFrequency()
 
-    with picamera.PiCamera(resolution=(300, 300)) as camera:
+    with picamera.PiCamera(resolution=(304, 304)) as camera:
         with picamera.array.PiRGBArray(camera) as stream:
             output = np.empty((300 * 300 * 3,), dtype=np.uint8)
             frames = 0
