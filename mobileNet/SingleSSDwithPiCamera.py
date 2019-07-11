@@ -173,7 +173,6 @@ except:
 finally:
 
     # Stop streaming
-    camera.stop_recording()
     for devnum in range(len(devices)):
         graphHandle[devnum][0].destroy()
         graphHandle[devnum][1].destroy()
