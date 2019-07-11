@@ -52,7 +52,7 @@ graphHandle = []
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
     devHandle[devnum].OpenDevice()
-    graph = devices[devnum].AllocateGraph(os.path.join(graph_folder, "graph"))
+    graph = devHandle[devnum].AllocateGraph(os.path.join(graph_folder, "graph"))
     graphHandle.append(graph.AllocateGraph(devHandle[devnum], graph))
 
 print("\nLoaded Graphs!!!")
