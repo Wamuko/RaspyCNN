@@ -35,7 +35,7 @@ LABELS = ('background',
           'motorbike', 'person', 'pottedplant',
           'sheep', 'sofa', 'train', 'tvmonitor')
 
-mvnc.SetGlobalOption(mvnc.GlobalOption.RW_LOG_LEVEL, 2)
+mvnc.SetGlobalOption(mvnc.GlobalOption.LOG_LEVEL, 2)
 devices = mvnc.EnumerateDevices()
 if len(devices) == 0:
     print("No devices found")
