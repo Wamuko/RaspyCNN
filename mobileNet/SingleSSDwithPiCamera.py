@@ -19,13 +19,6 @@ from datetime import datetime
 from os.path import isfile, join
 import re
 
-# 画像保存用ディレクトリの作成
-segmented_images_dir = "saved_images"
-current_images_dir = datetime.now().strftime("%Y%m%d_%H%M%S")
-segmented_path = os.path.join(os.getcwd(), segmented_images_dir)
-segmented_images_path = os.path.join(segmented_path, current_images_dir)
-if not os.path.exists(segmented_images_path):
-    os.makedirs(segmented_images_path)
 
 
 LABELS = ('background',
@@ -56,6 +49,14 @@ for devnum in range(len(devices)):
     graphHandle.append(graph.AllocateGraph(devHandle[devnum], graph))
 
 print("\nLoaded Graphs!!!")
+
+# 画像保存用ディレクトリの作成
+segmented_images_dir = "saved_images"
+current_images_dir = datetime.now().strftime("%Y%m%d_%H%M%S")
+segmented_path = os.path.join(os.getcwd(), segmented_images_dir)
+segmented_images_path = os.path.join(segmented_path, current_images_dir)
+if not os.path.exists(segmented_images_path):
+    os.makedirs(segmented_images_path)
 
 
 # Configure depth and color streams
