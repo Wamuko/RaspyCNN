@@ -25,7 +25,7 @@ current_images_dir = datetime.now().strftime("%Y%m%d_%H%M%S")
 segmented_path = os.path.join(os.getcwd(), segmented_images_dir)
 segmented_images_path = os.path.join(segmented_path, current_images_dir)
 if not os.path.exists(segmented_images_path):
-    os.mkdir(segmented_images_path)
+    os.makedirs(segmented_images_path)
 
 
 LABELS = ('background',
