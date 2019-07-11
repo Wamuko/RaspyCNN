@@ -72,7 +72,7 @@ if not os.path.exists(segmented_images_path):
 try:
     #freq = cv2.getTickFrequency()
 
-    with picamera.Camera(resolution=(300, 300)) as camera:
+    with picamera.PiCamera(resolution=(300, 300)) as camera:
         with picamera.array.PiRGBArray(camera) as color_frame:
             frames = 0
             while(True):
@@ -83,8 +83,8 @@ try:
                     continue
 
                 # Convert images to numpy arrays
-                color_image = np.asanyarray(color_frame.get_data())
-
+                color_image = np.asanyarray(color_frame)
+                print(color_image)
                 #dnn
                 im = cv2.resize(color_image, (300, 300))
                 im = im - 127.5
