@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import cv2
 
-slim = tf.contrib.slim
+import tensorflow.contrib.slim as slim
 
 # %matplotlib inline
 import matplotlib.pyplot as plt
