@@ -88,14 +88,13 @@ try:
 
                 # Convert images to numpy arrays
                 color_image = np.asanyarray(stream.array)
-                print(color_image)
                 #dnn
                 im = cv2.resize(color_image, (300, 300))
                 im = im - 127.5
                 im = im * 0.007843
 
                 #graphHandle[0][0]=input_fifo, graphHandle[0][1]=output_fifo
-                graph.queue_inference_with_fifo_elem(graphHandle[0][0], graphHandle[0][1], im.astype(np.float32), color_image)
+                graph.LoadTensor(im.astype(np.float16), None)
                 out, input_image = graphHandle[0][1].read_elem()
 
                 # Show images
