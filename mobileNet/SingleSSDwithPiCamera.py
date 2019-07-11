@@ -52,7 +52,9 @@ graph = mvnc.Graph('MobileNet-SSD')
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
     devHandle[devnum].OpenDevice()
-    graphHandle.append(graph.allocate_with_fifos(devHandle[devnum], graph_buffer))
+    graphHandle.append(devHandle[devnum].AllocateGraph(graph))
+    graphHandle[devnum].SetGraphOption(mvnc.GraphOption.ITERATIONS, 1)
+    iterations = graphHandle[devnum].GetGraphOption(mvnc.GraphOption.ITERATIONS)
 
 print("\nLoaded Graphs!!!")
 
