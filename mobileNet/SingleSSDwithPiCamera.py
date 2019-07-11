@@ -51,7 +51,7 @@ graph = mvnc.Graph('MobileNet-SSD')
 
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
-    devHandle[devnum].open()
+    devHandle[devnum].OpenDevice()
     graphHandle.append(graph.allocate_with_fifos(devHandle[devnum], graph_buffer))
 
 print("\nLoaded Graphs!!!")
