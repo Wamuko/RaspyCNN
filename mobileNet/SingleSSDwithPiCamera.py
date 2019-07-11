@@ -94,8 +94,8 @@ try:
                 im = im * 0.007843
 
                 #graphHandle[0][0]=input_fifo, graphHandle[0][1]=output_fifo
-                graphHandle[0][0].LoadTensor(im.astype(np.float16), None)
-                out, input_image = graphHandle[0][1].GetResult()
+                graphHandle[0].LoadTensor(im.astype(np.float16), None)
+                out, input_image = graphHandle[0].GetResult()
 
                 # Show images
                 height = color_image.shape[0]
