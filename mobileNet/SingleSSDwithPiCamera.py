@@ -35,7 +35,7 @@ LABELS = ('background',
           'motorbike', 'person', 'pottedplant',
           'sheep', 'sofa', 'train', 'tvmonitor')
 
-mvnc.global_set_option(mvnc.GlobalOption.RW_LOG_LEVEL, 2)
+# mvnc.global_set_option(mvnc.GlobalOption.RW_LOG_LEVEL, 2)
 devices = mvnc.enumerate_devices()
 if len(devices) == 0:
     print("No devices found")
