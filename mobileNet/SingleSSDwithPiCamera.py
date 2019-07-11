@@ -46,8 +46,7 @@ devHandle   = []
 graphHandle = []
 
 with open(join(graph_folder, "graph"), mode="rb") as f:
-    graph_buffer = f.read()
-graph = mvnc.Graph('MobileNet-SSD')
+    graph = f.read()
 
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
