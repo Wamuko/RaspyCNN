@@ -174,7 +174,7 @@ finally:
 
     # Stop streaming
     for devnum in range(len(devices)):
-        graphHandle[devnum].CloseDevice()
+        devHandle[devnum].CloseDevice()
 
     print("\n\nFinished\n\n")
     sys.exit()
