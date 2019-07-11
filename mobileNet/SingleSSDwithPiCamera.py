@@ -54,7 +54,7 @@ graph_folder = join(join(os.getcwd(), "caffemodel"), "MobileNetSSD")
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
     devHandle[devnum].OpenDevice()
-    graph = devHandle[devnum].AllocateGraph(os.path.join(graph_folder, "MobileNetSSD_deploy"))
+    graph = devHandle[devnum].AllocateGraph(os.path.join(graph_folder, "MobileNetSSD"))
     graphHandle.append(graph.AllocateGraph(devHandle[devnum], graph))
 
 print("\nLoaded Graphs!!!")
