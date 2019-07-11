@@ -45,15 +45,15 @@ print(len(devices))
 devHandle   = []
 graphHandle = []
 
-with open(join(graph_folder, "graph"), mode="rb") as f:
-    graph = f.read()
+# with open(join(graph_folder, "graph"), mode="rb") as f:
+#     graph_buffer = f.read()
+# graph = mvnc.Graph('MobileNet-SSD')
 
 for devnum in range(len(devices)):
     devHandle.append(mvnc.Device(devices[devnum]))
     devHandle[devnum].OpenDevice()
-    graphHandle.append(devHandle[devnum].AllocateGraph(graph))
-    graphHandle[devnum].SetGraphOption(mvnc.GraphOption.ITERATIONS, 1)
-    iterations = graphHandle[devnum].GetGraphOption(mvnc.GraphOption.ITERATIONS)
+    graph = devices[devnum].AllocateGraph(os.path.join(graph_folder, "graph"))
+    graphHandle.append(graph.AllocateGraph(devHandle[devnum], graph))
 
 print("\nLoaded Graphs!!!")
 
