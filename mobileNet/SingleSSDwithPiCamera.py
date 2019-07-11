@@ -83,7 +83,7 @@ try:
                 t1 = time.perf_counter()
 
                 # Wait for a coherent pair of frames: depth and color
-                if not color_frame:
+                if not stream:
                     continue
 
                 # Convert images to numpy arrays
