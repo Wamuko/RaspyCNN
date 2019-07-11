@@ -174,10 +174,7 @@ finally:
 
     # Stop streaming
     for devnum in range(len(devices)):
-        graphHandle[devnum].destroy()
-        graph.destroy()
-        devHandle[devnum].close()
-        devHandle[devnum].destroy()
+        graphHandle[devnum].CloseDevice()
 
     print("\n\nFinished\n\n")
     sys.exit()
