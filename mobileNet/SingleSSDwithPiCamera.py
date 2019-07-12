@@ -157,6 +157,8 @@ try:
 
                 # cv2.namedWindow('RealSense', cv2.WINDOW_AUTOSIZE)
                 # cv2.imshow('RealSense', cv2.resize(color_image,(width, height)))
+
+                # ディレクトリにJPGイメージを保存する
                 if frames % 10 == 0:
                     cv2.imwrite(os.path.join(segmented_images_path, str(frames)) + '.jpg', color_image)
                 frames += 1
