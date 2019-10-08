@@ -2,15 +2,6 @@
 from packs import sensorBase
 import picamera
 import picamera.array
-import numpy as np
-import cv2
-from mvnc import mvncapi as mvnc
-from os import system
-import io, time
-import os.path
-from datetime import datetime
-from os.path import isfile, join
-import re
 from time import time
 
 import socket
@@ -75,8 +66,6 @@ class ImageSender(sensorBase.SensorBase):
                             #
                             print('data sent')
 
-                            if cv2.waitKey(1) & 0xFF == ord('q'):
-                                break
                             stream.seek(0)
                             stream.truncate()
                             # インターバルの時間分スリープする
