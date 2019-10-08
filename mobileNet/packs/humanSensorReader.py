@@ -22,7 +22,7 @@ class HumanSensorReader(sensorReader.SensorReader):
                     self.LOGGER.info()
                     time.sleep(coolTime)
         finally:
-            self.LOGGER.err()
+            self.LOGGER.error()
             self.IS_WORKING = False
             print("finished")
 
