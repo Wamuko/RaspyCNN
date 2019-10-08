@@ -16,9 +16,11 @@ class HumanSensorReader(sensorReader.SensorReader):
     def start(self):
         self.IS_WORKING = True
         try:
+            coolTime = 10
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
                     self.LOGGER.info()
+                    time.sleep(coolTime)
         finally:
             self.LOGGER.err()
 
