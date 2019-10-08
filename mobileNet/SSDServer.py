@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 graph_folder="./"
 if sys.version_info.major < 3 or sys.version_info.minor < 4:
