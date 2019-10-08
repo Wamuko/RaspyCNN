@@ -33,7 +33,7 @@ def main():
 
     # ログを見て、もしくは何らかのイベントで画像送信クラスを下記のようにスタートさせないといけないが
     # どうやればいいか考え中
-    imageSender.start()
+    # imageSender.start()
 
 if __name__ == "__main__":
     main()
