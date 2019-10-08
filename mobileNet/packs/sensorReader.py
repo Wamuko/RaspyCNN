@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 import RPi.GPIO as gp
 import time
-from abc import ABCMeta, abstractmethod
 from logging import getLogger, StreamHandler, Formatter, INFO
 from packs import sensorBase
 
 '''
 @Abstract class
 GPIOセンサーから値を受け取るクラス
+継承専用
 @GPIO_PIN param int GPIO PIN番号
 @LOG param string ログを保存するファイル名
 @NAME param string 
 '''
 
 
-class SensorReader(metaclass=ABCMeta, sensorBase.SensorBase):
+class SensorReader(sensorBase.SensorBase):
     GPIO_PIN = None
     LOGGER = None
     NAME = None
@@ -33,10 +33,6 @@ class SensorReader(metaclass=ABCMeta, sensorBase.SensorBase):
         self.LOGGER.setLevel(INFO)
         self.STREAM_HANDLER = StreamHandler()
         self.STREAM_HANDLER.setLevel(INFO)
-
-    @abstractmethod
-    def start(self):
-        pass
 
     def stop(self):
         self.IS_WORKING = False
