@@ -28,7 +28,7 @@ class SensorReader(sensorBase.SensorBase):
         self.NAME = name if name is not None else "Sensor"
         # GPIOの設定
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(GPIO_PIN, GPIO.IN)
+        GPIO.setup(self.GPIO_PIN, GPIO.IN)
         # ロガーの設定
         self.LOGGER.setLevel(INFO)
         self.STREAM_HANDLER = StreamHandler()
