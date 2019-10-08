@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import RPi.GPIO as gp
+import RPi.GPIO as GPIO
 import time
 from logging import getLogger, StreamHandler, Formatter, INFO
 from packs import sensorBase
