@@ -7,6 +7,8 @@ from abc import ABCMeta, abstractmethod
 
 
 class SensorBase(metaclass=ABCMeta):
+    IS_WORKING = False
+
     @abstractmethod
     def start(self):
         pass

@@ -21,12 +21,12 @@ class ImageSender(sensorBase.SensorBase):
     SERVER_PORT = 50000
     INTERVAL = 2.5
     SLEEP_TIME = 15
-    IS_WORKING = False
 
-    def __init__(self, ip, port=None, interval=None):
+    def __init__(self, ip, port=None, interval=None, sleep=None):
         self.SERVER_IP = ip
         self.INTERVAL = interval if interval is not None else self.INTERVAL
         self.SERVER_PORT = port if port is not None else self.SERVER_PORT
+        self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
 
     def start(self):
         # もし既にこの関数が動いていたら複数回は呼び出されないようにする

@@ -17,23 +17,14 @@ def main():
     if not os.path.exists(logDir):
         os.mkdir(logDir)
 
-    # センサーの定義
-    sensors = [
-        hs.HumanSensorReader(18, logger, "humanSensor", "HumanSensor"),
-    ]
-
+    # マルチスレッドにしたいけど、ちょっと構造が思いつかないのでシングルスレッドで動くの優先
     # 画像送信クラスの初期化
     imageSender = isend.ImageSender('172.16.202.1', 50000)
 
-    # スレッド処理するスレッドクラスの初期化
-    threader = st.SensorThreader(sensors, 4)
+    # センサーの定義
+    sensor = hs.HumanSensorReader(18, logger, "humanSensor", "HumanSensor", imageSender)
 
-    # センサーの値の取得とlogへの書き出しを開始
-    threader.start()
-
-    # ログを見て、もしくは何らかのイベントで画像送信クラスを下記のようにスタートさせないといけないが
-    # どうやればいいか考え中
-    # imageSender.start()
+    sensor.start()
 
 if __name__ == "__main__":
     main()
