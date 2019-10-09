@@ -14,15 +14,16 @@ class HumanSensorReader(sensorReader.SensorReader):
         self.LOGGER.addHandler(logging.FileHandler(log if log is not None else "sensor.log"))
 
     def start(self):
+        print(self.LOG_FILE)
         self.IS_WORKING = True
         try:
             coolTime = 10
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
-                    self.LOGGER.info()
+                    self.LOGGER.info("")
                     time.sleep(coolTime)
         finally:
-            self.LOGGER.error()
+            self.LOGGER.error("")
             self.IS_WORKING = False
             print("finished")
 
