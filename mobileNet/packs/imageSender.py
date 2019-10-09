@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from packs import sensorBase
+from packs import sensorSender
 import picamera
 import picamera.array
-from time import time
+import time
 
 import socket
 
@@ -16,19 +16,17 @@ PiCameraから画像を取得して、指定されたサーバに送信するク
 '''
 
 
-class ImageSender(sensorBase.SensorBase):
-    SERVER_IP = None
-    SERVER_PORT = 50000
+class ImageSender(sensorSender.SensorSender):
     INTERVAL = 2.5
     SLEEP_TIME = 15
     IS_WORKING = False
 
-    def __init__(self, ip, port=None, interval=None):
-        self.SERVER_IP = ip
+    def __init__(self, address, port, logger, log, interval=None, sleep=None):
+        super().__init__(address, port, logger, log)
         self.INTERVAL = interval if interval is not None else self.INTERVAL
-        self.SERVER_PORT = port if port is not None else self.SERVER_PORT
+        self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
 
-    def start(self):
+    def send(self):
         # もし既にこの関数が動いていたら複数回は呼び出されないようにする
         if self.IS_WORKING:
             return
@@ -59,7 +57,7 @@ class ImageSender(sensorBase.SensorBase):
                             # color_image = np.asanyarray(stream.array)
 
                             # サーバを指定
-                            s.connect((self.SERVER_IP, self.SERVER_PORT))
+                            s.connect((self.ADDRESS, self.PORT))
                             # s.connect(('172.16.202.1', 50000))
                             # サーバにメッセージを送る
                             s.sendall(stream.array)

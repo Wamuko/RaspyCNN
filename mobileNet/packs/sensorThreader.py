@@ -18,6 +18,6 @@ class SensorThreader:
     def start(self):
         with futures.ThreadPoolExecutor(max_workers=self.workers) as executor:
             for sensor in self.sensors:
-                future = executor.submit(fn=sensor.start)
+                future = executor.submit(fn=sensor.start())
                 self.futuresList.append(future)
             _ = futures.as_completed(self.sensors)

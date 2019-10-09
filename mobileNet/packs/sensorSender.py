@@ -15,28 +15,25 @@ GPIOセンサーから値を受け取るクラス
 '''
 
 
-class SensorReader(metaclass=ABCMeta):
-    GPIO_PIN = None
+class SensorSender(metaclass=ABCMeta):
+    ADDRESS = None
+    PORT = None
     LOGGER = None
-    NAME = None
     IS_WORKING = False
     STREAM_HANDLER = None
 
-    def __init__(self, gpioPin, logger, log=None, name=None):
-        self.GPIO_PIN = int(gpioPin)
+    def __init__(self, address, port, logger, log=None):
+        self.ADDRESS = address
+        self.PORT = port
         self.LOGGER = logger
-        self.LOG_FILE = log
-        self.NAME = name if name is not None else "Sensor"
-        # GPIOの設定
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.GPIO_PIN, GPIO.IN)
+        self.LOG_FILE = log if log is not None else "sensor.log"
         # ロガーの設定
         self.LOGGER.setLevel(INFO)
         self.STREAM_HANDLER = StreamHandler()
         self.STREAM_HANDLER.setLevel(INFO)
 
     @abstractmethod
-    def start(self):
+    def send(self):
         pass
 
     def stop(self):

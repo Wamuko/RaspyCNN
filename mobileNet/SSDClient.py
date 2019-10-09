@@ -10,6 +10,7 @@ from packs import imageSender as isend
 from packs import sensorThreader as st
 from logging import getLogger
 
+
 def main():
     # ログ作成用初期処理
     logger = getLogger("sensors")
@@ -19,11 +20,11 @@ def main():
 
     # センサーの定義
     sensors = [
-        hs.HumanSensorReader(18, logger, "humanSensor", "HumanSensor"),
+        hs.HumanSensorReader(18, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
     ]
 
     # 画像送信クラスの初期化
-    imageSender = isend.ImageSender('172.16.202.1', 50000)
+    imageSender = isend.ImageSender('10.10.1.224', 50000, logger, os.path.join(logDir, "sender.log"))
 
     # スレッド処理するスレッドクラスの初期化
     threader = st.SensorThreader(sensors, 4)
@@ -34,6 +35,7 @@ def main():
     # ログを見て、もしくは何らかのイベントで画像送信クラスを下記のようにスタートさせないといけないが
     # どうやればいいか考え中
     # imageSender.start()
+
 
 if __name__ == "__main__":
     main()
