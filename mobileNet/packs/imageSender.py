@@ -2,7 +2,7 @@
 from packs import sensorBase
 import picamera
 import picamera.array
-from time import time
+import time
 
 import socket
 
@@ -78,3 +78,4 @@ class ImageSender(sensorBase.SensorBase):
 
         finally:
             self.IS_WORKING = False
+            return 1
