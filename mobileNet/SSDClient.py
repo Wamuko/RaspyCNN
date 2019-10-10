@@ -5,7 +5,7 @@ if sys.version_info.major < 3 or sys.version_info.minor < 4:
     print("Please using python3.4 or greater!")
     exit(1)
 
-from packs import humanSensorReader as hs
+from packs import humanSensor as hs
 from packs import imageSender as isend
 from packs import sensorThreader as st
 from logging import getLogger
@@ -20,7 +20,7 @@ def main():
 
     # センサーの定義
     sensors = [
-        hs.HumanSensorReader(18, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
+        hs.HumanSensor(18, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
     ]
 
     # 画像送信クラスの初期化
