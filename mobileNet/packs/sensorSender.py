@@ -33,7 +33,7 @@ class SensorSender(metaclass=ABCMeta):
         self.STREAM_HANDLER.setLevel(INFO)
 
     @abstractmethod
-    def send(self):
+    def send(self, executor):
         pass
 
     def stop(self):

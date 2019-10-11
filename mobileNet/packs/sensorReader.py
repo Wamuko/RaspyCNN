@@ -36,7 +36,7 @@ class SensorReader(metaclass=ABCMeta):
         self.STREAM_HANDLER.setLevel(INFO)
 
     @abstractmethod
-    def start(self):
+    def start(self, executor):
         pass
 
     def stop(self):

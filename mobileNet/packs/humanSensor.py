@@ -16,7 +16,10 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
         self.LOGGER.addHandler(logging.FileHandler(log if log is not None else "sensor.log"))
 
     # 人感センサーの計測を開始するメソッド
-    def start(self, coolTime=15):
+    def start(self, executor):
+        return executor.submit(fn=work)
+
+    def work(self, cool):
         print(self.LOG_FILE)
         self.IS_WORKING = True
         try:
@@ -33,5 +36,5 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
             print("finished")
 
     # 人感センサーの値をUDP送信するためのクラス
-    def send(self):
+    def send(self, executor):
         pass
