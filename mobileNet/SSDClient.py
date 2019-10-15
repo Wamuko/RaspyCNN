@@ -16,16 +16,15 @@ from packs import test as ts
 
 def main():
     # ログ作成用初期処理
-    logger = getLogger("sensors")
     logDir = os.path.join(os.getcwd(), "log")
     if not os.path.exists(logDir):
         os.mkdir(logDir)
 
     # センサーの定義
     sensors = [
-        hs.HumanSensor(18, '10.10.2.126', 55550, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor-1"),
-        hs.HumanSensor(12, '10.10.2.126', 55550, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor-2"),
-        isend.ImageHandler('10.10.2.126', 50000, '10.10.2.126', 55550, logger, os.path.join(logDir, "imageSender.log")),
+        hs.HumanSensor(18, '10.10.2.126', 55550, getLogger(), os.path.join(logDir, "humanSensor.log"), "HumanSensor-1"),
+        hs.HumanSensor(12, '10.10.2.126', 55550, getLogger(), os.path.join(logDir, "humanSensor.log"), "HumanSensor-2"),
+        isend.ImageHandler('10.10.2.126', 50000, '10.10.2.126', 55550, getLogger(), os.path.join(logDir, "imageSender.log")),
         ts.Test(50000),
     ]
 

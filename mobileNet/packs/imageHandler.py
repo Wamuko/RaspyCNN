@@ -60,6 +60,7 @@ class ImageHandler(sensorSender.SensorSender):
                             interval = self.INTERVAL
                             # stream.arrayにRGBの順で映像データを格納
                             camera.capture(stream, 'bgr', use_video_port=True)
+                            self.S_LOGGER.info("got picture!")
 
                             t1 = time.perf_counter()
 
@@ -75,8 +76,6 @@ class ImageHandler(sensorSender.SensorSender):
                             # s.connect(('172.16.202.1', 50000))
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
-                            #
-                            self.S_LOGGER.info("image sent")
 
                             stream.seek(0)
                             stream.truncate()
