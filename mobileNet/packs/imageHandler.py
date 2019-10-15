@@ -91,7 +91,8 @@ class ImageHandler(sensorSender.SensorSender):
         print("Waiting sensor data")
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
         s = socket(AF_INET, SOCK_DGRAM)
-        s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        # s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        s.bind(('', self.LISTENING_PORT))
         print("Waiting sensor data from port")
 
         while True:
