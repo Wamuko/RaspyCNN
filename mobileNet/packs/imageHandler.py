@@ -83,7 +83,7 @@ class ImageHandler(sensorSender.SensorSender):
 
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
     def start(self, executor):
-        return executor.submit(fn=listening)
+        return executor.submit(fn=self.listening)
 
     # 人感センサーの値を受け取るエージェントを起動
     def listening(self):
