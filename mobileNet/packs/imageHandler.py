@@ -17,7 +17,7 @@ PiCameraから画像を取得して、指定されたサーバに送信するク
 
 class ImageHandler(sensorSender.SensorSender):
     INTERVAL = 2.5
-    SLEEP_TIME = 15
+    SLEEP_TIME = 11
     IS_WORKING = False
     LISTENING_PORT = None
 
@@ -68,7 +68,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
                             #
-                            print('image sent')
+                            self.LOGGER("image sent")
 
                             stream.seek(0)
                             stream.truncate()
@@ -91,7 +91,6 @@ class ImageHandler(sensorSender.SensorSender):
     def listening(self):
         print("Waiting sensor data")
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
-        print("Waiting sensor data from port")
 
         while True:
             msg, address = self.sock.recvfrom(32)
