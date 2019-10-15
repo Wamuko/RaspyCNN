@@ -29,6 +29,9 @@ class ImageHandler(sensorSender.SensorSender):
         self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
         self.LISTENING_ADDRESS = listeningAddress
         self.LISTENING_PORT = listeningPort
+        # ソケット定義
+        self.sock = socket(AF_INET, SOCK_DGRAM)
+        self.sock.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
 
     # 画像を他の機器に送信するためのメソッド
     def send(self):
@@ -90,13 +93,10 @@ class ImageHandler(sensorSender.SensorSender):
     def listening(self):
         print("Waiting sensor data")
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
-        s = socket(AF_INET, SOCK_DGRAM)
-        # s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
-        s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
         print("Waiting sensor data from port")
 
         while True:
-            msg, address = s.recvfrom(32)
+            msg, address = self.sock.recvfrom(32)
             if msg is not None:
                 self.send()
                 print("send images")
