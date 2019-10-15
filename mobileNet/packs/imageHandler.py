@@ -3,7 +3,7 @@ from packs import sensorSender
 import picamera
 import picamera.array
 import time
-from socket import socket, AF_INET, SOCK_DGRAM
+from socket import socket, AF_INET, SOCK_DGRAM, SOCK_STREAM
 
 '''
 PiCameraから画像を取得して、指定されたサーバに送信するクラス
@@ -99,4 +99,4 @@ class ImageHandler(sensorSender.SensorSender):
                 self.send()
                 print("send images")
 
-        s.close()
+        self.sock.close()
