@@ -89,6 +89,7 @@ class ImageHandler(sensorSender.SensorSender):
     def listening(self):
         s = socket(AF_INET, SOCK_DGRAM)
         s.bind(('', self.LISTENING_PORT))
+        print("Waiting sensor data")
 
         while True:
             msg, address = s.recvfrom(8192)

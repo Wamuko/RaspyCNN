@@ -45,7 +45,6 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
     def sendUDP(self, msg):
         s = socket(AF_INET, SOCK_DGRAM)
-        while True:
-            s.sendto(msg.encode(), (self.ADDRESS, self.PORT))
-
+        s.sendto(msg.encode(), (self.ADDRESS, self.PORT))
         s.close()
+        print("send sensor data")
