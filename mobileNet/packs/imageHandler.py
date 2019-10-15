@@ -33,10 +33,10 @@ class ImageHandler(sensorSender.SensorSender):
         self.sock = socket(AF_INET, SOCK_DGRAM)
         self.sock.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
         # loggerの初期化
-        filehandler = FileHandler(self.LOG_FILE)
+        filehandler = FileHandler(self.S_LOG_FILE)
         filehandler.setLevel(INFO)
         filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
-        self.LOGGER.addHandler(filehandler)
+        self.S_LOGGER.addHandler(filehandler)
 
     # 画像を他の機器に送信するためのメソッド
     def send(self):
@@ -76,7 +76,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
                             #
-                            self.LOGGER("image sent")
+                            self.S_LOGGER("image sent")
 
                             stream.seek(0)
                             stream.truncate()

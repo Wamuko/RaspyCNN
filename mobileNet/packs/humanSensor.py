@@ -15,10 +15,10 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
         super(sensorReader.SensorReader, self).__init__(address, port, logger, log)
 
         self.COOL_TIME = coolTime
-        filehandler = FileHandler(self.LOG_FILE)
+        filehandler = FileHandler(self.R_LOG_FILE)
         filehandler.setLevel(INFO)
         filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
-        self.LOGGER.addHandler(filehandler)
+        self.R_LOGGER.addHandler(filehandler)
 
 
     # 人感センサーの計測を開始するメソッド
@@ -32,20 +32,21 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
                     # ログに計測した日時を出力する
-                    self.LOGGER.info(self.NAME)
+                    self.R_LOGGER.info(self.R_NAME)
                     # UDP
                     self.sendUDP("1")
                     time.sleep(self.COOL_TIME)
 
         finally:
-            self.LOGGER.error("")
+            self.R_LOGGER.error("")
             self.IS_WORKING = False
             print("finished")
 
-    # 人感センサーの値をUDP送信するためのクラス
+    # 人感センサーの値を送信するメソッド
     def send(self):
         pass
 
+    # 人感センサーの値をUDP送信するためのメソッド
     def sendUDP(self, msg):
         s = socket(AF_INET, SOCK_DGRAM)
         s.sendto(msg.encode(), (self.ADDRESS, self.PORT))

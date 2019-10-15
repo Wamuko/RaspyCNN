@@ -18,17 +18,16 @@ GPIOセンサーから値を受け取るクラス
 class SensorSender(metaclass=ABCMeta):
     ADDRESS = None
     PORT = None
-    LOGGER = None
-    IS_WORKING = False
-    STREAM_HANDLER = None
+    S_LOGGER = None
+    S_IS_WORKING = False
 
     def __init__(self, address, port, logger, log=None):
         self.ADDRESS = address
         self.PORT = port
-        self.LOGGER = logger
-        self.LOG_FILE = log if log is not None else "sensor.log"
+        self.S_LOGGER = logger
+        self.S_LOG_FILE = log if log is not None else "sensor.log"
         # ロガーの設定
-        self.LOGGER.setLevel(INFO)
+        self.S_LOGGER.setLevel(INFO)
 
 
     @abstractmethod
@@ -36,5 +35,5 @@ class SensorSender(metaclass=ABCMeta):
         pass
 
     def stop(self):
-        self.IS_WORKING = False
+        self.S_IS_WORKING = False
 
