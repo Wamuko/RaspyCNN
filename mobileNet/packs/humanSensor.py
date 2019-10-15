@@ -12,9 +12,12 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
     def __init__(self, gpioPin, address, port, logger, log=None, name=None, coolTime=15):
         super(HumanSensor, self).__init__(gpioPin, logger, log, name)
         super(sensorReader.SensorReader, self).__init__(address, port, logger, log)
-        self.STREAM_HANDLER.setFormatter(logging.Formatter('%(asctime)s,%(levelname)s'))
+        self.STREAM_HANDLER.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+        filehandler = logging.FileHandler(log if log is not None else "sensor.log")
+        filehandler.setLevel(logging.INFO)
+        filehandler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
         self.LOGGER.addHandler(self.STREAM_HANDLER)
-        self.LOGGER.addHandler(logging.FileHandler(log if log is not None else "sensor.log"))
+        self.LOGGER.addHandler(filehandler)
         self.COOL_TIME = coolTime
 
     # 人感センサーの計測を開始するメソッド
@@ -23,7 +26,6 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
     # 人感センサーの計測を行う
     def work(self):
-        print(self.LOG_FILE)
         self.IS_WORKING = True
         try:
             while self.IS_WORKING:

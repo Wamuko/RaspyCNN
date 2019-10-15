@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
 import time
-from logging import getLogger, StreamHandler, Formatter, INFO
+from logging import getLogger, StreamHandler, Formatter, INFO, FileHandler
 from abc import ABCMeta, abstractmethod
 
 
@@ -21,6 +21,7 @@ class SensorReader(metaclass=ABCMeta):
     NAME = None
     IS_WORKING = False
     STREAM_HANDLER = None
+    FILE_HANDLER = None
 
     def __init__(self, gpioPin, logger, log=None, name=None):
         self.GPIO_PIN = int(gpioPin)
