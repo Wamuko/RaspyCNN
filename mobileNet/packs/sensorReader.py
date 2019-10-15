@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
 import time
-from logging import getLogger, StreamHandler, Formatter, INFO, FileHandler
+from logging import getLogger, FileHandler, Formatter, INFO, FileHandler
 from abc import ABCMeta, abstractmethod
 
 
@@ -26,15 +26,17 @@ class SensorReader(metaclass=ABCMeta):
     def __init__(self, gpioPin, logger, log=None, name=None):
         self.GPIO_PIN = int(gpioPin)
         self.LOGGER = logger
-        self.LOG_FILE = log
+        self.LOG_FILE = log if log is not None else "sensor.log"
         self.NAME = name if name is not None else "Sensor"
         # GPIOの設定
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.GPIO_PIN, GPIO.IN)
         # ロガーの設定
         self.LOGGER.setLevel(INFO)
-        self.STREAM_HANDLER = StreamHandler()
-        self.STREAM_HANDLER.setLevel(INFO)
+        filehandler = FileHandler(self.LOG_FILE)
+        filehandler.setLevel(INFO)
+        filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+        self.LOGGER.addHandler(filehandler)
 
     @abstractmethod
     def start(self, executor):

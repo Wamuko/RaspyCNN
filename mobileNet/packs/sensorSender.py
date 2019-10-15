@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import RPi.GPIO as GPIO
 import time
-from logging import getLogger, StreamHandler, Formatter, INFO
+from logging import getLogger, FileHandler, Formatter, INFO
 from abc import ABCMeta, abstractmethod
 
 
@@ -29,8 +29,10 @@ class SensorSender(metaclass=ABCMeta):
         self.LOG_FILE = log if log is not None else "sensor.log"
         # ロガーの設定
         self.LOGGER.setLevel(INFO)
-        self.STREAM_HANDLER = StreamHandler()
-        self.STREAM_HANDLER.setLevel(INFO)
+        filehandler = FileHandler(self.LOG_FILE)
+        filehandler.setLevel(INFO)
+        filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+        self.LOGGER.addHandler(filehandler)
 
     @abstractmethod
     def send(self):
