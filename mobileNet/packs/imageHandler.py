@@ -23,10 +23,11 @@ class ImageHandler(sensorSender.SensorSender):
     IS_WORKING = False
     LISTENING_PORT = None
 
-    def __init__(self, address, port, listeningPort, logger, log, interval=None, sleep=None):
+    def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None):
         super().__init__(address, port, logger, log)
         self.INTERVAL = interval if interval is not None else self.INTERVAL
         self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
+        self.LISTENING_ADDRESS = listeningAddress
         self.LISTENING_PORT = listeningPort
 
     # 画像を他の機器に送信するためのメソッド
@@ -66,7 +67,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
                             #
-                            print('data sent')
+                            print('image sent')
 
                             stream.seek(0)
                             stream.truncate()
@@ -83,14 +84,14 @@ class ImageHandler(sensorSender.SensorSender):
 
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
     def start(self, executor):
-        print("")
         return executor.submit(fn=self.listening)
 
     # 人感センサーの値を受け取るエージェントを起動
     def listening(self):
         print("Waiting sensor data")
         s = socket(AF_INET, SOCK_DGRAM)
-        s.bind(('', self.LISTENING_PORT))
+        print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
         print("Waiting sensor data from port")
 
         while True:
