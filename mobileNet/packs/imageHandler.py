@@ -35,6 +35,7 @@ class ImageHandler(sensorSender.SensorSender):
     def send(self):
         # もし既にこの関数が動いていたら複数回は呼び出されないようにする
         if self.IS_WORKING:
+            print("already working")
             return
         else:
             self.IS_WORKING = True
