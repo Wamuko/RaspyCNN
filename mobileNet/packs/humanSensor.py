@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import logging
 from packs import sensorReader
 from packs import sensorSender
+from socket import socket, AF_INET, SOCK_DGRAM
 
 
 class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
@@ -19,13 +20,14 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
     def start(self, executor):
         return executor.submit(fn=work)
 
-    def work(self, cool):
+    # 人感センサーの計測を行う
+    def work(self, coolTime=15):
         print(self.LOG_FILE)
         self.IS_WORKING = True
         try:
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
-                    # ログに日時を出力する
+                    # ログに計測した日時を出力する
                     self.LOGGER.info("")
                     # UDP
                     time.sleep(coolTime)
@@ -36,5 +38,12 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
             print("finished")
 
     # 人感センサーの値をUDP送信するためのクラス
-    def send(self, executor):
+    def send(self):
         pass
+
+    def sendUDP(self, msg):
+        s = socket(AF_INET, SOCK_DGRAM)
+        while True:
+            s.sendto(msg.encode(), (self.ADDRESS, self.PORT))
+
+        s.close()

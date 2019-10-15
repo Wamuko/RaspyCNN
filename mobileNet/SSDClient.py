@@ -6,7 +6,7 @@ if sys.version_info.major < 3 or sys.version_info.minor < 4:
     exit(1)
 
 from packs import humanSensor as hs
-from packs import imageSender as isend
+from packs import imageHandler as isend
 from packs import sensorThreader as st
 from logging import getLogger
 
@@ -20,21 +20,13 @@ def main():
 
     # センサーの定義
     sensors = [
-        hs.HumanSensor(18, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
+        hs.HumanSensor(18, '10.10.1.224', 6666, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
+        isend.ImageHandler('10.10.1.224', 5000, 6666, logger, os.path.join(logDir, "sender.log"))
     ]
-
     # 画像送信クラスの初期化
-    imageSender = isend.ImageSender('10.10.1.224', 50000, logger, os.path.join(logDir, "sender.log"))
 
     # スレッド処理するスレッドクラスの初期化
     threader = st.SensorThreader(sensors, 4)
-
-    # センサーの値の取得とlogへの書き出しを開始
-    threader.start()
-
-    # ログを見て、もしくは何らかのイベントで画像送信クラスを下記のようにスタートさせないといけないが
-    # どうやればいいか考え中
-    # imageSender.start()
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ from packs import sensorSender
 import picamera
 import picamera.array
 import time
+from socket import socket, AF_INET, SOCK_DGRAM
 
 import socket
 
@@ -16,16 +17,19 @@ PiCameraから画像を取得して、指定されたサーバに送信するク
 '''
 
 
-class ImageSender(sensorSender.SensorSender):
+class ImageHandler(sensorSender.SensorSender):
     INTERVAL = 2.5
     SLEEP_TIME = 15
     IS_WORKING = False
+    LISTENING_PORT = None
 
-    def __init__(self, address, port, logger, log, interval=None, sleep=None):
+    def __init__(self, address, port, listeningPort, logger, log, interval=None, sleep=None):
         super().__init__(address, port, logger, log)
         self.INTERVAL = interval if interval is not None else self.INTERVAL
         self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
+        self.LISTENING_PORT = listeningPort
 
+    # 画像を他の機器に送信するためのメソッド
     def send(self):
         # もし既にこの関数が動いていたら複数回は呼び出されないようにする
         if self.IS_WORKING:
@@ -76,3 +80,19 @@ class ImageSender(sensorSender.SensorSender):
 
         finally:
             self.IS_WORKING = False
+
+    # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
+    def start(self, executor):
+        return executor.submit(fn=listening)
+
+    # 人感センサーの値を受け取るエージェントを起動
+    def listening(self):
+        s = socket(AF_INET, SOCK_DGRAM)
+        s.bind(('', self.LISTENING_PORT))
+
+        while True:
+            msg, address = s.recvfrom(8192)
+            if msg == "1":
+                self.send()
+
+        s.close()
