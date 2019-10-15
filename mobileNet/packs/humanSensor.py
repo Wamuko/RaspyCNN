@@ -29,7 +29,7 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
                     # ログに計測した日時を出力する
-                    self.LOGGER.info("")
+                    self.LOGGER.info(self.NAME)
                     # UDP
                     self.sendUDP("1")
                     time.sleep(self.COOL_TIME)
