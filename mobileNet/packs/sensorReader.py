@@ -33,10 +33,6 @@ class SensorReader(metaclass=ABCMeta):
         GPIO.setup(self.GPIO_PIN, GPIO.IN)
         # ロガーの設定
         self.LOGGER.setLevel(INFO)
-        filehandler = FileHandler(self.LOG_FILE)
-        filehandler.setLevel(INFO)
-        filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
-        self.LOGGER.addHandler(filehandler)
 
     @abstractmethod
     def start(self, executor):

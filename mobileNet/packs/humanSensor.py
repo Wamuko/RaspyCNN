@@ -6,6 +6,7 @@ import logging
 from packs import sensorReader
 from packs import sensorSender
 from socket import socket, AF_INET, SOCK_DGRAM
+from logging import FileHandler, INFO, Formatter
 
 
 class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
@@ -14,6 +15,11 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
         super(sensorReader.SensorReader, self).__init__(address, port, logger, log)
 
         self.COOL_TIME = coolTime
+        filehandler = FileHandler(self.LOG_FILE)
+        filehandler.setLevel(INFO)
+        filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+        self.LOGGER.addHandler(filehandler)
+
 
     # 人感センサーの計測を開始するメソッド
     def start(self, executor):

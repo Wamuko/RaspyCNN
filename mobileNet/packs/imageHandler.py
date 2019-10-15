@@ -4,6 +4,8 @@ import picamera
 import picamera.array
 import time
 from socket import socket, AF_INET, SOCK_DGRAM, SOCK_STREAM
+from logging import FileHandler, INFO, Formatter
+
 
 '''
 PiCameraから画像を取得して、指定されたサーバに送信するクラス
@@ -30,6 +32,11 @@ class ImageHandler(sensorSender.SensorSender):
         # ソケット定義
         self.sock = socket(AF_INET, SOCK_DGRAM)
         self.sock.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        # loggerの初期化
+        filehandler = FileHandler(self.LOG_FILE)
+        filehandler.setLevel(INFO)
+        filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+        self.LOGGER.addHandler(filehandler)
 
     # 画像を他の機器に送信するためのメソッド
     def send(self):
