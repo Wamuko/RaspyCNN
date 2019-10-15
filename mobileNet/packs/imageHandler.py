@@ -5,8 +5,6 @@ import picamera.array
 import time
 from socket import socket, AF_INET, SOCK_DGRAM
 
-import socket
-
 '''
 PiCameraから画像を取得して、指定されたサーバに送信するクラス
 @param SERVER_IP string 送りつけサーバIP
