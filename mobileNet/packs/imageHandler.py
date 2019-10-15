@@ -93,7 +93,8 @@ class ImageHandler(sensorSender.SensorSender):
 
         while True:
             msg, address = s.recvfrom(8192)
-            if msg == "1":
+            if msg is not None:
+                print("画像をセンサのあたいを受信しました")
                 self.send()
 
         s.close()
