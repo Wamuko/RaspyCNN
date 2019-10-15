@@ -42,7 +42,7 @@ class ImageHandler(sensorSender.SensorSender):
         try:
             with picamera.PiCamera(resolution=(304, 304)) as camera:
                 with picamera.array.PiRGBArray(camera) as stream:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    with socket(AF_INET, SOCK_STREAM) as s:
                         # 処理を開始した時刻を取得
                         timeSta = time.perf_counter()
                         timeEnd = time.perf_counter()
