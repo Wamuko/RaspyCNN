@@ -20,7 +20,6 @@ PiCameraから画像を取得して、指定されたサーバに送信するク
 class ImageHandler(sensorSender.SensorSender):
     INTERVAL = 2.5
     SLEEP_TIME = 11
-    IS_WORKING = False
     LISTENING_PORT = None
 
     def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None):
@@ -41,11 +40,11 @@ class ImageHandler(sensorSender.SensorSender):
     # 画像を他の機器に送信するためのメソッド
     def send(self):
         # もし既にこの関数が動いていたら複数回は呼び出されないようにする
-        if self.IS_WORKING:
+        if self.S_IS_WORKING:
             print("already working")
             return
         else:
-            self.IS_WORKING = True
+            self.S_IS_WORKING = True
 
         try:
             with picamera.PiCamera(resolution=(304, 304)) as camera:
@@ -88,7 +87,7 @@ class ImageHandler(sensorSender.SensorSender):
             traceback.print_exc()
 
         finally:
-            self.IS_WORKING = False
+            self.S_IS_WORKING = False
 
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
     def start(self, executor):
@@ -101,7 +100,7 @@ class ImageHandler(sensorSender.SensorSender):
 
         while True:
             msg, address = self.sock.recvfrom(32)
-            if msg is not None:
+            if msg is not None and not self.S_IS_WORKING:
                 self.send()
 
         self.sock.close()
