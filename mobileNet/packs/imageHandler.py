@@ -83,18 +83,20 @@ class ImageHandler(sensorSender.SensorSender):
 
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
     def start(self, executor):
+        print("")
         return executor.submit(fn=self.listening)
 
     # 人感センサーの値を受け取るエージェントを起動
     def listening(self):
+        print("Waiting sensor data")
         s = socket(AF_INET, SOCK_DGRAM)
         s.bind(('', self.LISTENING_PORT))
-        print("Waiting sensor data")
+        print("Waiting sensor data from port")
 
         while True:
-            msg, address = s.recvfrom(8192)
+            msg, address = s.recvfrom(32)
             if msg is not None:
-                print("画像をセンサのあたいを受信しました")
                 self.send()
+                print("send images")
 
         s.close()
