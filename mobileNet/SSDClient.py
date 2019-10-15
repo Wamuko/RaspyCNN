@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys, os
+from socket import socket, AF_INET, SOCK_DGRAM
 
 if sys.version_info.major < 3 or sys.version_info.minor < 4:
     print("Please using python3.4 or greater!")
@@ -9,6 +10,8 @@ from packs import humanSensor as hs
 from packs import imageHandler as isend
 from packs import sensorThreader as st
 from logging import getLogger
+
+from packs import test as ts
 
 
 def main():
@@ -20,13 +23,14 @@ def main():
 
     # センサーの定義
     sensors = [
-        hs.HumanSensor(18, '10.10.1.224', 6666, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
-        isend.ImageHandler('10.10.1.224', 5000, 6666, logger, os.path.join(logDir, "sender.log"))
+        hs.HumanSensor(18, '10.10.2.126', 6666, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
+        isend.ImageHandler('10.10.2.126', 5000, 6666, logger, os.path.join(logDir, "sender.log")),
+        ts.Test(),
     ]
-    # 画像送信クラスの初期化
 
     # スレッド処理するスレッドクラスの初期化
     threader = st.SensorThreader(sensors, 4)
+    threader.start()
 
 
 if __name__ == "__main__":
