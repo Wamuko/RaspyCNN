@@ -14,7 +14,7 @@ class Test:
             s.listen(1)
             s.bind(('10.10.2.126', self.PORT))
             while True:
-                conn, addr = self.sock.accept()
+                conn, addr = s.accept()
                 with conn:
                     while True:
                         data = conn.recv(300*300*3)

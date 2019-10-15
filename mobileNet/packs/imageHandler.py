@@ -97,6 +97,5 @@ class ImageHandler(sensorSender.SensorSender):
             msg, address = self.sock.recvfrom(32)
             if msg is not None:
                 self.send()
-                print("send images")
 
         self.sock.close()
