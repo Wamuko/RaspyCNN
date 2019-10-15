@@ -89,8 +89,8 @@ class ImageHandler(sensorSender.SensorSender):
     # 人感センサーの値を受け取るエージェントを起動
     def listening(self):
         print("Waiting sensor data")
-        s = socket(AF_INET, SOCK_DGRAM)
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        s = socket(AF_INET, SOCK_DGRAM)
         s.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
         print("Waiting sensor data from port")
 
