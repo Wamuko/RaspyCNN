@@ -10,7 +10,7 @@ from concurrent import futures
 
 
 class SensorThreader:
-    def __init__(self, sensors, workers=12):
+    def __init__(self, sensors, workers=4):
         self.workers = workers
         self.sensors = sensors
         self.futuresList = []

@@ -29,7 +29,7 @@ def main():
     ]
 
     # スレッド処理するスレッドクラスの初期化
-    threader = st.SensorThreader(sensors)
+    threader = st.SensorThreader(sensors, 4)
     threader.start()
 
 
