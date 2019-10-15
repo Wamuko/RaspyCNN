@@ -76,7 +76,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
                             #
-                            self.S_LOGGER("image sent")
+                            self.S_LOGGER.info("image sent")
 
                             stream.seek(0)
                             stream.truncate()
