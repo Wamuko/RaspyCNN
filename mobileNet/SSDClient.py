@@ -23,8 +23,8 @@ def main():
 
     # センサーの定義
     sensors = [
-        hs.HumanSensor(18, '10.10.2.126', 6666, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
-        isend.ImageHandler('10.10.2.126', 5000, '10.10.2.126', 6666, logger, os.path.join(logDir, "sender.log")),
+        hs.HumanSensor(18, '10.10.2.126', 66660, logger, os.path.join(logDir, "humanSensor.log"), "HumanSensor"),
+        isend.ImageHandler('10.10.2.126', 50000, '10.10.2.126', 66660, logger, os.path.join(logDir, "sender.log")),
         ts.Test(),
     ]
 
