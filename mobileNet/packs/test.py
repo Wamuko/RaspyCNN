@@ -14,7 +14,12 @@ class Test:
         self.sock.listen(1)
 
         while True:
-            msg, address = self.sock.recvfrom(8192)
-            print("Got Images!!\n")
+            conn, addr = self.sock.accept()
+            with conn:
+                while True:
+                    data = conn.recv(300*300*3)
+                    if not data:
+                        continue
+                    print("Got Images!!\n")
 
         self.sock.close()
