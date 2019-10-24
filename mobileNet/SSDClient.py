@@ -11,8 +11,6 @@ from packs import imageHandler as isend
 from packs import sensorThreader as st
 from logging import getLogger
 
-from packs import test as ts
-
 
 def main():
     # ログ作成用初期処理
@@ -25,7 +23,6 @@ def main():
         hs.HumanSensor(18, '10.10.2.126', 55550, getLogger("1"), os.path.join(logDir, "humanSensor.log"), "HumanSensor-1"),
         hs.HumanSensor(12, '10.10.2.126', 55550, getLogger("2"), os.path.join(logDir, "humanSensor.log"), "HumanSensor-2"),
         isend.ImageHandler('10.10.2.126', 50000, '10.10.2.126', 55550, getLogger("3"), os.path.join(logDir, "imageSender.log")),
-        ts.Test(50000),
     ]
 
     # スレッド処理するスレッドクラスの初期化

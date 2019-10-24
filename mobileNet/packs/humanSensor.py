@@ -27,7 +27,11 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
     # 人感センサーの計測を行う
     def work(self):
-        self.IS_WORKING = True
+        if self.IS_WORKING:
+            print("human sensor has been already working")
+            return
+        else:
+            self.IS_WORKING = True
         try:
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
