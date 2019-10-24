@@ -2,6 +2,7 @@
 from packs import sensorSender
 import picamera
 import picamera.array
+import cv2
 import time
 from socket import socket, AF_INET, SOCK_DGRAM, SOCK_STREAM
 from logging import FileHandler, INFO, Formatter
@@ -76,6 +77,8 @@ class ImageHandler(sensorSender.SensorSender):
                             # サーバにメッセージを送る
                             s.sendall(stream.array)
 
+                            if cv2.waitKey(1) & 0xFF == ord('q'):
+                                break
                             stream.seek(0)
                             stream.truncate()
                             # インターバルの時間分スリープする
