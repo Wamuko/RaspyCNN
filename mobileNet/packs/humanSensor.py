@@ -27,13 +27,13 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
     # 人感センサーの計測を行う
     def work(self):
-        if self.IS_WORKING:
+        if self.R_IS_WORKING:
             print("human sensor has been already working")
             return
 
-        self.IS_WORKING = True
+        self.R_IS_WORKING = True
         try:
-            while self.IS_WORKING:
+            while self.R_IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
                     # ログに計測した日時を出力する
                     self.R_LOGGER.info(self.R_NAME)
@@ -43,7 +43,7 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
         finally:
             self.R_LOGGER.error("")
-            self.IS_WORKING = False
+            self.R_IS_WORKING = False
             print("finished")
 
     # 人感センサーの値を送信するメソッド
