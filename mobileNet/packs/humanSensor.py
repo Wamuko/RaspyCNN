@@ -30,8 +30,8 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
         if self.IS_WORKING:
             print("human sensor has been already working")
             return
-        else:
-            self.IS_WORKING = True
+
+        self.IS_WORKING = True
         try:
             while self.IS_WORKING:
                 if GPIO.input(self.GPIO_PIN) == GPIO.HIGH:
