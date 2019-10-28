@@ -72,15 +72,15 @@ class SSD:
             os.makedirs(self.segmented_images_path)
 
     def __myrcv(self, sock, length):
-        chunks = ''
+        chunks = []
         bytes_recd = 0
         while bytes_recd < length:
             chunk = sock.recv(min(length - bytes_recd, length))
-            if not chunk:
-                continue
-            chunks += chunk
+            if chunk == b'':
+                raise RuntimeError("socket connection broken")
+            chunks.append(chunk)
             bytes_recd = bytes_recd + len(chunk)
-        return chunks
+        return b''.join(chunks)
 
     def start(self, executor):
         return executor.submit(fn=self.work)
@@ -104,7 +104,7 @@ class SSD:
                         frames = 0
                         while True:
                             # データを受け取る
-                            data = self.__myrcv(conn, 304*304*3)
+                            data = self.__myrcv(conn, 304 * 304 * 3)
 
                             print('received')
 
