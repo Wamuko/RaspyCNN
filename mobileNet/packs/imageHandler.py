@@ -74,7 +74,7 @@ class ImageHandler(sensorSender.SensorSender):
                             s.connect((self.ADDRESS, self.PORT))
                             # s.connect(('172.16.202.1', 50000))
                             # サーバにメッセージを送る
-                            s.sendall(stream.array)
+                            s.sendall(stream.array.tostring())
 
                             stream.seek(0)
                             stream.truncate()

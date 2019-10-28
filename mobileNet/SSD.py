@@ -101,7 +101,7 @@ class SSD:
 
                             # Convert images to numpy array
                             encoded = np.fromstring(data, np.uint8)
-                            np_encoded = np.asanyarray(encoded)
+                            np_encoded = np.reshape(encoded, (300, 300, 3))
                             color_image = cv2.imdecode(np_encoded, cv2.IMREAD_COLOR)
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
