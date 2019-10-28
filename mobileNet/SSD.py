@@ -71,6 +71,17 @@ class SSD:
         if not os.path.exists(self.segmented_images_path):
             os.makedirs(self.segmented_images_path)
 
+    def __myrcv(self, sock, length):
+        chunks = ''
+        bytes_recd = 0
+        while bytes_recd < length:
+            chunk = sock.recv(min(length - bytes_recd, length))
+            if not chunk:
+                continue
+            chunks += chunk
+            bytes_recd = bytes_recd + len(chunk)
+        return chunks
+
     def start(self, executor):
         return executor.submit(fn=self.work)
 
@@ -93,16 +104,13 @@ class SSD:
                         frames = 0
                         while True:
                             # データを受け取る
-                            data = conn.recv(300*300*3)
-                            if not data:
-                                continue
+                            data = self.__myrcv(conn, 304*304*3)
 
                             print('received')
 
                             # Convert images to numpy array
                             encoded = np.fromstring(data, np.uint8)
-                            np_encoded = np.asanyarray(encoded)
-                            color_image = cv2.imdecode(np_encoded, cv2.IMREAD_COLOR)
+                            color_image = np.reshape(encoded, (304, 304, 3))
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
                             im = im - 127.5
