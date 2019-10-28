@@ -105,13 +105,13 @@ class SSD:
                         while True:
                             t1 = time.perf_counter()
                             # データを受け取る
-                            data = self.__myrcv(conn, 304 * 304 * 3)
+                            data = self.__myrcv(conn, 300 * 300 * 3)
 
                             print('received')
 
                             # Convert images to numpy array
                             encoded = np.frombuffer(data, np.uint8)
-                            color_image = np.reshape(encoded, (304, 304, 3))
+                            color_image = np.reshape(encoded, (300, 300, 3))
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
                             im = im - 127.5
