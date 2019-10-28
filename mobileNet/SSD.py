@@ -99,8 +99,10 @@ class SSD:
 
                             print('received')
 
-                            # Convert images to numpy arrays
-                            color_image = np.asanyarray(data)
+                            # Convert images to numpy array
+                            encoded = np.fromstring(data, np.uint8)
+                            np_encoded = np.asanyarray(encoded)
+                            color_image = cv2.imdecode(np_encoded, cv2.IMREAD_COLOR)
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
                             im = im - 127.5
