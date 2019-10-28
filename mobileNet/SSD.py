@@ -103,6 +103,7 @@ class SSD:
                     with conn:
                         frames = 0
                         while True:
+                            t1 = time.perf_counter()
                             # データを受け取る
                             data = self.__myrcv(conn, 304 * 304 * 3)
 
