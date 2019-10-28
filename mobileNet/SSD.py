@@ -77,7 +77,7 @@ class SSD:
         while bytes_recd < length:
             chunk = sock.recv(min(length - bytes_recd, length))
             if chunk == b'':
-                raise RuntimeError("socket connection broken")
+                continue
             chunks.append(chunk)
             bytes_recd = bytes_recd + len(chunk)
         return b''.join(chunks)
@@ -105,13 +105,13 @@ class SSD:
                         while True:
                             t1 = time.perf_counter()
                             # データを受け取る
-                            data = self.__myrcv(conn, 300 * 300 * 3)
+                            data = self.__myrcv(conn, 304 * 304 * 3)
 
                             print('received')
 
                             # Convert images to numpy array
                             encoded = np.frombuffer(data, np.uint8)
-                            color_image = np.reshape(encoded, (300, 300, 3))
+                            color_image = np.reshape(encoded, (304, 304, 3))
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
                             im = im - 127.5
