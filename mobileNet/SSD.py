@@ -109,7 +109,7 @@ class SSD:
                             print('received')
 
                             # Convert images to numpy array
-                            encoded = np.fromstring(data, np.uint8)
+                            encoded = np.frombuffer(data, np.uint8)
                             color_image = np.reshape(encoded, (304, 304, 3))
                             # dnn
                             im = cv2.resize(color_image, (300, 300))
@@ -159,7 +159,7 @@ class SSD:
                                     box_top = int(object_info_overlay[base_index + 4] * source_image_height)
                                     box_right = int(object_info_overlay[base_index + 5] * source_image_width)
                                     box_bottom = int(object_info_overlay[base_index + 6] * source_image_height)
-                                    label_text = LABELS[int(class_id)] + " (" + str(percentage) + "%)"
+                                    label_text = self.LABELS[int(class_id)] + " (" + str(percentage) + "%)"
 
                                     box_color = (255, 128, 0)
                                     box_thickness = 1
