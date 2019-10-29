@@ -77,7 +77,7 @@ class SSD:
         while bytes_recd < length:
             chunk = sock.recv(min(length - bytes_recd, length))
             if chunk == b'':
-                break
+                pass
             chunks.append(chunk)
             bytes_recd = bytes_recd + len(chunk)
         return b''.join(chunks)
