@@ -101,10 +101,13 @@ class SSD:
                 # connection するまで待つ
                 while True:
                     # 誰かがアクセスしてきたら、コネクションとアドレスを入れる
+                    print("接続待機中")
                     conn, addr = s.accept()
                     with conn:
                         frames = 0
+                        # 指定された秒数だけ受信・解析を行う
                         while True:
+                            print("データ大気中")
                             t1 = time.perf_counter()
                             # データを受け取る
                             data = self.__myrcv(conn, 304 * 304 * 3)
