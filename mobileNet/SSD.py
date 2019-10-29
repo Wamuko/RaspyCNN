@@ -20,6 +20,7 @@ import os.path
 from datetime import datetime
 from os.path import isfile, join
 import re
+import errno
 
 import socket
 
@@ -72,15 +73,20 @@ class SSD:
             os.makedirs(self.segmented_images_path)
 
     # TCPで特定サイズの画像を1枚受け取るためのメソッド
-    def __myrcv(self, sock, length):
+    def __myrcv(self, conn, length):
         chunks = []
         bytes_recd = 0
         while bytes_recd < length:
-            chunk = sock.recv(min(length - bytes_recd, length))
-            if chunk == b'':
-                pass
-            chunks.append(chunk)
-            bytes_recd = bytes_recd + len(chunk)
+            try:
+                chunk = conn.recv(min(length - bytes_recd, length))
+                if chunk == b'':
+                    pass
+                chunks.append(chunk)
+                bytes_recd = bytes_recd + len(chunk)
+            except socket.error as e:
+                if e.errno == errno.ECONNRESET:
+                    return False
+
         return b''.join(chunks)
 
     # これをスレッド内で呼ぶことでSSDをマルチスレッドで動かす
@@ -111,6 +117,8 @@ class SSD:
                             t1 = time.perf_counter()
                             # データを受け取る
                             data = self.__myrcv(conn, 304 * 304 * 3)
+                            if not data:
+                                break
 
                             print('received')
 
