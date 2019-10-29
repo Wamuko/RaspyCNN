@@ -71,17 +71,19 @@ class SSD:
         if not os.path.exists(self.segmented_images_path):
             os.makedirs(self.segmented_images_path)
 
+    # TCPで特定サイズの画像を1枚受け取るためのメソッド
     def __myrcv(self, sock, length):
         chunks = []
         bytes_recd = 0
         while bytes_recd < length:
             chunk = sock.recv(min(length - bytes_recd, length))
             if chunk == b'':
-                continue
+                pass
             chunks.append(chunk)
             bytes_recd = bytes_recd + len(chunk)
         return b''.join(chunks)
 
+    # これをスレッド内で呼ぶことでSSDをマルチスレッドで動かす
     def start(self, executor):
         return executor.submit(fn=self.work)
 

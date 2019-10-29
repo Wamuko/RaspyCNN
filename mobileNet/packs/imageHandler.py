@@ -50,6 +50,8 @@ class ImageHandler(sensorSender.SensorSender):
             with picamera.PiCamera(resolution=(304, 304)) as camera:
                 with picamera.array.PiRGBArray(camera) as stream:
                     with socket(AF_INET, SOCK_STREAM) as s:
+                        # サーバを指定
+                        s.connect((self.ADDRESS, self.PORT))
                         # 処理を開始した時刻を取得
                         timeSta = time.perf_counter()
                         timeEnd = time.perf_counter()
@@ -70,8 +72,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # Convert images to numpy arrays
                             # color_image = np.asanyarray(stream.array)
 
-                            # サーバを指定
-                            s.connect((self.ADDRESS, self.PORT))
+
                             # s.connect(('172.16.202.1', 50000))
                             # サーバにメッセージを送る
                             s.sendall(stream.array.tostring())
