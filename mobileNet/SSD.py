@@ -80,7 +80,7 @@ class SSD:
             try:
                 chunk = conn.recv(min(length - bytes_recd, length))
                 if chunk == b'':
-                    pass
+                    return False
                 chunks.append(chunk)
                 bytes_recd = bytes_recd + len(chunk)
             except socket.error as e:
