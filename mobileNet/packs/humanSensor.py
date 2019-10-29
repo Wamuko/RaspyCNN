@@ -20,7 +20,6 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
         filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
         self.R_LOGGER.addHandler(filehandler)
 
-
     # 人感センサーの計測を開始するメソッド
     def start(self, executor):
         return executor.submit(fn=self.work)
@@ -40,11 +39,11 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
                     # UDP
                     self.sendUDP("1")
                     time.sleep(self.COOL_TIME)
-
+            self.R_IS_WORKING = False
         finally:
             self.R_LOGGER.error("")
             self.R_IS_WORKING = False
-            print("finished")
+            GPIO.cleanup()
 
     # 人感センサーの値を送信するメソッド
     def send(self):

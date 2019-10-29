@@ -3,6 +3,7 @@ from packs import sensorSender
 import picamera
 import picamera.array
 import time
+import subprocess
 from socket import socket, AF_INET, SOCK_DGRAM, SOCK_STREAM
 from logging import FileHandler, INFO, Formatter
 
@@ -22,12 +23,13 @@ class ImageHandler(sensorSender.SensorSender):
     SLEEP_TIME = 11
     LISTENING_PORT = None
 
-    def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None):
+    def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None, led_color=None):
         super().__init__(address, port, logger, log)
         self.INTERVAL = interval if interval is not None else self.INTERVAL
         self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
         self.LISTENING_ADDRESS = listeningAddress
         self.LISTENING_PORT = listeningPort
+        self.LED_COLOR = led_color
         # ソケット定義
         self.sock = socket(AF_INET, SOCK_DGRAM)
         self.sock.bind((self.LISTENING_ADDRESS, self.LISTENING_PORT))
@@ -36,6 +38,7 @@ class ImageHandler(sensorSender.SensorSender):
         filehandler.setLevel(INFO)
         filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
         self.S_LOGGER.addHandler(filehandler)
+        self.led_operate("off")
 
     # 画像を他の機器に送信するためのメソッド
     def send(self):
@@ -91,6 +94,14 @@ class ImageHandler(sensorSender.SensorSender):
         finally:
             self.S_IS_WORKING = False
 
+    # LED電球を操作する、arg: "on", "off", "nnnnnn" (nは16進数)
+    def led_operate(self, arg):
+        if arg == "on" and self.LED_COLOR is not None:
+            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", self.LED_COLOR], stdin=subprocess.PIPE)
+        else:
+            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", arg], stdin=subprocess.PIPE)
+        return result
+
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
     def start(self, executor):
         return executor.submit(fn=self.listening)
@@ -103,6 +114,8 @@ class ImageHandler(sensorSender.SensorSender):
         while True:
             msg, address = self.sock.recvfrom(32)
             if msg is not None and not self.S_IS_WORKING:
+                _ = self.led_operate("on")
                 self.send()
+                _ = self.led_operate("off")
 
         self.sock.close()
