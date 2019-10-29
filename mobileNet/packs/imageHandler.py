@@ -38,7 +38,6 @@ class ImageHandler(sensorSender.SensorSender):
         filehandler.setLevel(INFO)
         filehandler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
         self.S_LOGGER.addHandler(filehandler)
-        self.led_operate("off")
 
     # 画像を他の機器に送信するためのメソッド
     def send(self):
@@ -110,6 +109,7 @@ class ImageHandler(sensorSender.SensorSender):
     def listening(self):
         print("Waiting sensor data")
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
+        self.led_operate("off")
 
         while True:
             msg, address = self.sock.recvfrom(32)
