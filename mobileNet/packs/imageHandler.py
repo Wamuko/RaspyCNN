@@ -82,6 +82,7 @@ class ImageHandler(sensorSender.SensorSender):
                             # インターバルの時間分スリープする
                             time.sleep(interval - (timeImageSta - time.perf_counter()))
                             timeEnd = time.perf_counter()
+                        s.close()
         except Exception:
             import traceback
 
