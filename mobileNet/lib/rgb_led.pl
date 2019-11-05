@@ -3,7 +3,8 @@
 $OFF='01080500';
 $ON ='01080501';
 
-$ADDR='A3:39:71:95:B0:BC';
+#これが電球のマックアドレス
+#$ADDR='A3:39:71:95:B0:BC';
 #$ADDR='27:A3:A2:F9:49:99';
 
 $head='55AA';
@@ -29,6 +30,7 @@ $body='030802'. $RGB;
 $body=$ON if $ARGV[0] =~ /^on/o;
 $body=$OFF if $ARGV[0] =~ /^off/o;
 
+$ADDR = $ARGV[1];
 foreach($body =~ /../g) {
     $sum += hex($_);
 }

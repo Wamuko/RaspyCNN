@@ -23,12 +23,13 @@ class ImageHandler(sensorSender.SensorSender):
     SLEEP_TIME = 11
     LISTENING_PORT = None
 
-    def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None, led_color=None):
+    def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None, led_mac=None, led_color=None):
         super().__init__(address, port, logger, log)
         self.INTERVAL = interval if interval is not None else self.INTERVAL
         self.SLEEP_TIME = sleep if sleep is not None else self.SLEEP_TIME
         self.LISTENING_ADDRESS = listeningAddress
         self.LISTENING_PORT = listeningPort
+        self.LED_MAC = led_mac
         self.LED_COLOR = led_color
         # ソケット定義
         self.sock = socket(AF_INET, SOCK_DGRAM)
@@ -96,9 +97,9 @@ class ImageHandler(sensorSender.SensorSender):
     # LED電球を操作する、arg: "on", "off", "nnnnnn" (nは16進数)
     def led_operate(self, arg):
         if arg == "on" and self.LED_COLOR is not None:
-            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", self.LED_COLOR], stdin=subprocess.PIPE)
+            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", self.LED_COLOR, self.LED_MAC], stdin=subprocess.PIPE)
         else:
-            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", arg], stdin=subprocess.PIPE)
+            result = subprocess.check_output(["perl", "./lib/rgb_led.pl", arg, self.LED_MAC], stdin=subprocess.PIPE)
         return result
 
     # 人感センサーの値を受け取って、画像を送信するエージェントを起動する
@@ -109,13 +110,16 @@ class ImageHandler(sensorSender.SensorSender):
     def listening(self):
         print("Waiting sensor data")
         print("address: {}, port: {}".format(self.LISTENING_ADDRESS, self.LISTENING_PORT))
-        self.led_operate("off")
+        _ = self.led_operate("off")
+        _ = self.led_operate("off")
 
         while True:
             msg, address = self.sock.recvfrom(32)
             if msg is not None and not self.S_IS_WORKING:
                 _ = self.led_operate("on")
+                _ = self.led_operate("on")
                 self.send()
+                _ = self.led_operate("off")
                 _ = self.led_operate("off")
 
         self.sock.close()
