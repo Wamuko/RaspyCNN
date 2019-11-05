@@ -197,7 +197,7 @@ class SSD:
 
                             # ディレクトリにJPGイメージを保存する
                             if frames % 10 == 0:
-                                cv2.imwrite(os.path.join(self.segmented_images_path, str(addr)) + '.jpg', color_image)
+                                cv2.imwrite(os.path.join(self.segmented_images_path, str(addr[0])) + '.jpg', color_image)
 
                             ## Print FPS
                             t2 = time.perf_counter()
