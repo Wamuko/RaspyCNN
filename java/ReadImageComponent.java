@@ -15,41 +15,82 @@ class ReadImageComponent extends Component implements Runnable
 	private String s = ReadImageUI.cameraName;
 	private String filePath = "d:/" + s + ".JPG";
 
-	BufferedImage bufferedImage = null;
+	BufferedImage img = null;
+	BufferedImage newimg = null;
+
+	int width = 100;
+	int height = 100;
+
+	int x, y, neww, newh, color;
 
 	private Thread thread;
 
 	ReadImageComponent()
 	{
-
 		thread = new Thread(this);
 		thread.start();
 
 		try
 		{
-			bufferedImage = ImageIO.read(new File(filePath));
+			img = ImageIO.read(new File(filePath));
 		}
 		catch (IOException e)
 		{
 			System.out.println("image file not found. [" + filePath + "]");
 		}
+
+		if (img != null)
+		{
+			width = img.getWidth(null);
+			height = img.getHeight(null);
+		}
+
+		// 新しい画像サイズを計算
+		neww = width * 2;
+		newh = height * 2;
+
+// 新しい画像を作成
+// ２４ビットカラーの画像を作成
+		try
+		{
+			newimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_RGB);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+// 処理本体
+		for (y = 0; y < height; ++y)
+		{
+			for (x = 0; x < width; ++x)
+			{
+// (x,y)の色を取得
+				color = img.getRGB(x, y);
+
+// ２ｘ２の４倍に拡大
+				newimg.setRGB(x * 2, y * 2, color);
+				newimg.setRGB(x * 2 + 1, y * 2, color);
+				newimg.setRGB(x * 2, y * 2 + 1, color);
+				newimg.setRGB(x * 2 + 1, y * 2 + 1, color);
+			}
+		}
 	}
 
 	public void paint(Graphics graphics)
 	{
-		graphics.drawImage(bufferedImage, 0, 0, null);
+		graphics.drawImage(newimg, 0, 0, null);
 	}
 
 	public Dimension getPreferredSize()
 	{
-		int width = 100;
-		int height = 100;
-		if (bufferedImage != null)
-		{// [125]
-			width = bufferedImage.getWidth(null);
-			height = bufferedImage.getHeight(null);
+		if (newimg == null)
+		{
+			width = 100;
+			height = 100;
 		}
-		return new Dimension(width, height);
+
+		return new Dimension(neww, newh);
 	}
 
 	public void run()
@@ -75,7 +116,45 @@ class ReadImageComponent extends Component implements Runnable
 			{
 				try
 				{
-					bufferedImage = ImageIO.read(new File(filePath));
+					img = ImageIO.read(new File(filePath));
+
+					if (img != null)
+					{
+						width = img.getWidth(null);
+						height = img.getHeight(null);
+					}
+
+					// 新しい画像サイズを計算
+					neww = width * 2;
+					newh = height * 2;
+
+					// 新しい画像を作成
+					// ２４ビットカラーの画像を作成
+					try
+					{
+						newimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_RGB);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+
+					// 処理本体
+					for (y = 0; y < height; ++y)
+					{
+						for (x = 0; x < width; ++x)
+						{
+							// (x,y)の色を取得
+							color = img.getRGB(x, y);
+
+							// ２ｘ２の４倍に拡大
+							newimg.setRGB(x * 2, y * 2, color);
+							newimg.setRGB(x * 2 + 1, y * 2, color);
+							newimg.setRGB(x * 2, y * 2 + 1, color);
+							newimg.setRGB(x * 2 + 1, y * 2 + 1, color);
+						}
+					}
+
 					repaint();
 					System.out.println("Reload file.");
 				}
@@ -100,45 +179,87 @@ class ReadImageComponent extends Component implements Runnable
 //import javax.imageio.ImageIO;
 //
 //class ReadImageComponent extends Component implements Runnable
-//{// [100]
+//{
 //	private long preLastModified, nowLastModified;
-//	private String filePath = "d:/image.JPG";
+//	private String s = ReadImageUI.cameraName;
+//	private String filePath = "d:/" + s + ".JPG";
 //
-//	BufferedImage bufferedImage = null;// [101]
+//	BufferedImage img = null;
+//	BufferedImage newimg = null;
+//
+//	int width = 100;
+//	int height = 100;
+//
+//	int x, y, neww, newh, color;
 //
 //	private Thread thread;
 //
 //	ReadImageComponent()
-//	{// [102]
-//
+//	{
 //		thread = new Thread(this);
 //		thread.start();
 //
 //		try
-//		{// [104]
-//			bufferedImage = ImageIO.read(new File(filePath));// [105]
+//		{
+//			img = ImageIO.read(new File(filePath));
 //		}
 //		catch (IOException e)
-//		{// [106]
-//			System.out.println("image file not found. [" + filePath + "]");// [107]
+//		{
+//			System.out.println("image file not found. [" + filePath + "]");
+//		}
+//
+//		if (img != null)
+//		{
+//			width = img.getWidth(null);
+//			height = img.getHeight(null);
+//		}
+//
+//		// 新しい画像サイズを計算
+//		neww = width * 2;
+//		newh = height * 2;
+//
+//// 新しい画像を作成
+//// ２４ビットカラーの画像を作成
+//		try
+//		{
+//			newimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_RGB);
+//		}
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
+//
+//// 処理本体
+//		for (y = 0; y < height; ++y)
+//		{
+//			for (x = 0; x < width; ++x)
+//			{
+//// (x,y)の色を取得
+//				color = img.getRGB(x, y);
+//
+//// ２ｘ２の４倍に拡大
+//				newimg.setRGB(x * 2, y * 2, color);
+//				newimg.setRGB(x * 2 + 1, y * 2, color);
+//				newimg.setRGB(x * 2, y * 2 + 1, color);
+//				newimg.setRGB(x * 2 + 1, y * 2 + 1, color);
+//			}
 //		}
 //	}
 //
 //	public void paint(Graphics graphics)
-//	{// [110]
-//		graphics.drawImage(bufferedImage, 0, 0, null);// [111]
+//	{
+//		graphics.drawImage(newimg, 0, 0, null);
 //	}
 //
 //	public Dimension getPreferredSize()
-//	{// [120]
-//		int width = 100;// [123]
-//		int height = 100;// [134]
-//		if (bufferedImage != null)
-//		{// [125]
-//			width = bufferedImage.getWidth(null);// [126]
-//			height = bufferedImage.getHeight(null);// [127]
+//	{
+//		if (newimg == null)
+//		{
+//			width = 100;
+//			height = 100;
 //		}
-//		return new Dimension(width, height);// [128]
+//
+//		return new Dimension(neww, newh);
 //	}
 //
 //	public void run()
@@ -155,26 +276,62 @@ class ReadImageComponent extends Component implements Runnable
 //			}
 //			catch (InterruptedException e)
 //			{
-//				System.out.println("なんかスレッド上手く走らんわ");
+//				System.out.println("error 1");
 //			}
 //
 //			nowLastModified = f.lastModified();
 //
 //			if (preLastModified != nowLastModified)
 //			{
-//				System.out.println("画像変わったで");
-//
 //				try
-//				{// [104]
-//					bufferedImage = ImageIO.read(new File(filePath));// [105]
+//				{
+//					img = ImageIO.read(new File(filePath));
+//
+//					if (img != null)
+//					{
+//						width = img.getWidth(null);
+//						height = img.getHeight(null);
+//					}
+//
+//					// 新しい画像サイズを計算
+//					neww = width * 2;
+//					newh = height * 2;
+//
+//					// 新しい画像を作成
+//					// ２４ビットカラーの画像を作成
+//					try
+//					{
+//						newimg = new BufferedImage(neww, newh, BufferedImage.TYPE_INT_RGB);
+//					}
+//					catch (Exception e)
+//					{
+//						e.printStackTrace();
+//					}
+//
+//					// 処理本体
+//					for (y = 0; y < height; ++y)
+//					{
+//						for (x = 0; x < width; ++x)
+//						{
+//							// (x,y)の色を取得
+//							color = img.getRGB(x, y);
+//
+//							// ２ｘ２の４倍に拡大
+//							newimg.setRGB(x * 2, y * 2, color);
+//							newimg.setRGB(x * 2 + 1, y * 2, color);
+//							newimg.setRGB(x * 2, y * 2 + 1, color);
+//							newimg.setRGB(x * 2 + 1, y * 2 + 1, color);
+//						}
+//					}
+//
 //					repaint();
+//					System.out.println("Reload file.");
 //				}
 //				catch (IOException e)
-//				{// [106]
-//					System.out.println("image file not found. [" + filePath + "]");// [107]
+//				{
+//					System.out.println("image file not found. [" + filePath + "]");
 //				}
 //			}
 //		}
 //	}
 //}
-//
