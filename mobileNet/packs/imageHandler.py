@@ -49,6 +49,7 @@ class ImageHandler(sensorSender.SensorSender):
         else:
             self.S_IS_WORKING = True
 
+        print("start sending images.")
         try:
             with picamera.PiCamera(resolution=(304, 304)) as camera:
                 with picamera.array.PiRGBArray(camera) as stream:

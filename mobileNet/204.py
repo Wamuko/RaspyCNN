@@ -20,7 +20,7 @@ def main():
 
     # センサーの定義
     sensors = [
-        isend.ImageHandler('172.16.202.1', 50000, '0.0.0.0', 55550, getLogger("4"), os.path.join(logDir, "imageSender.log"), led_mac="27:A3:A2:F9:49:98", led_color="6c3cd4"),
+        isend.ImageHandler('172.16.202.1', 50000, '0.0.0.0', 55550, getLogger("4"), os.path.join(logDir, "imageSender.log"), led_mac="27:A3:A2:F9:49:99", led_color="ff0000"),
     ]
 
     # スレッド処理するスレッドクラスの初期化
