@@ -20,7 +20,7 @@ PiCameraから画像を取得して、指定されたサーバに送信するク
 
 class ImageHandler(sensorSender.SensorSender):
     INTERVAL = 2.5
-    SLEEP_TIME = 11
+    SLEEP_TIME = 8
     LISTENING_PORT = None
 
     def __init__(self, address, port, listeningAddress, listeningPort, logger, log, interval=None, sleep=None, led_mac=None, led_color=None):
@@ -49,6 +49,7 @@ class ImageHandler(sensorSender.SensorSender):
         else:
             self.S_IS_WORKING = True
 
+        print("start sending images.")
         try:
             with picamera.PiCamera(resolution=(304, 304)) as camera:
                 with picamera.array.PiRGBArray(camera) as stream:

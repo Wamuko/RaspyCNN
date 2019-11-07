@@ -66,9 +66,7 @@ class SSD:
 
         # 画像保存用ディレクトリの作成
         segmented_images_dir = "saved_images"
-        current_images_dir = datetime.now().strftime("%Y%m%d_%H%M%S")
-        segmented_path = os.path.join(os.getcwd(), segmented_images_dir)
-        self.segmented_images_path = os.path.join(segmented_path, current_images_dir)
+        self.segmented_images_path = os.path.join(os.getcwd(), segmented_images_dir)
         if not os.path.exists(self.segmented_images_path):
             os.makedirs(self.segmented_images_path)
 
@@ -197,8 +195,7 @@ class SSD:
 
                             # ディレクトリにJPGイメージを保存する
                             if frames % 10 == 0:
-                                cv2.imwrite(os.path.join(self.segmented_images_path, str(frames)) + '.jpg', color_image)
-                            frames += 1
+                                cv2.imwrite(os.path.join(self.segmented_images_path, str(addr[0])) + '.jpg', color_image)
 
                             ## Print FPS
                             t2 = time.perf_counter()

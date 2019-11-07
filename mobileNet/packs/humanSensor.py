@@ -10,7 +10,7 @@ from logging import FileHandler, INFO, Formatter
 
 
 class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
-    def __init__(self, gpioPin, address, port, logger, log=None, name=None, coolTime=15):
+    def __init__(self, gpioPin, address, port, logger, log=None, name=None, coolTime=10):
         super(HumanSensor, self).__init__(gpioPin, logger, log, name)
         super(sensorReader.SensorReader, self).__init__(address, port, logger, log)
 
