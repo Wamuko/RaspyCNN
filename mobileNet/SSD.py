@@ -66,9 +66,7 @@ class SSD:
 
         # 画像保存用ディレクトリの作成
         segmented_images_dir = "saved_images"
-        current_images_dir = datetime.now().strftime("%Y%m%d_%H%M%S")
-        segmented_path = os.path.join(os.getcwd(), segmented_images_dir)
-        self.segmented_images_path = os.path.join(segmented_path, current_images_dir)
+        self.segmented_images_path = os.path.join(os.getcwd(), segmented_images_dir)
         if not os.path.exists(self.segmented_images_path):
             os.makedirs(self.segmented_images_path)
 
