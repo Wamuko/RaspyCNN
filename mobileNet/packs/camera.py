@@ -80,7 +80,8 @@ class ImageHandler:
     def main(self):
         self.send()
 
+
 if __name__ == "__main__":
     # args: {1: 送信先のアドレス，2: 送信先のポート}
-    cam = ImageHandler(sys.argv[1], sys.argv[2])
+    cam = ImageHandler(sys.argv[1], int(sys.argv[2]))
     cam.main()
