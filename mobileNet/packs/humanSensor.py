@@ -22,6 +22,7 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
 
     # 人感センサーの計測を開始するメソッド
     def start(self, executor):
+        print("human sensor started")
         return executor.submit(fn=self.work)
 
     # 人感センサーの計測を行う
@@ -40,6 +41,8 @@ class HumanSensor(sensorReader.SensorReader, sensorSender.SensorSender):
                     self.sendUDP("1")
                     time.sleep(self.COOL_TIME)
             self.R_IS_WORKING = False
+        except KeyboardInterrupt:
+            print("終了処理中...")
         finally:
             self.R_LOGGER.error("")
             self.R_IS_WORKING = False

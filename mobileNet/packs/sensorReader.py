@@ -27,6 +27,7 @@ class SensorReader(metaclass=ABCMeta):
         self.R_LOG_FILE = log if log is not None else "sensor.log"
         self.R_NAME = name if name is not None else "Sensor"
         # GPIOの設定
+        GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.GPIO_PIN, GPIO.IN)
         # ロガーの設定
